@@ -10,6 +10,39 @@ TEAM_ID = os.getenv("LINEAR_TEAM_ID")
 TEAM_KEY = os.getenv("LINEAR_TEAM_KEY")
 
 
+def update_linear_issue(issue_id, title, description, priority, estimate):
+    url = "https://api.linear.app/graphql"
+
+    priority_mapping = {"Urgent" : 1, "High": 2, "Medium": 3, "Low": 4}
+    priority_value = priority_mapping.get(priority, 4)
+    query = """
+    mutation IssueUpdate($id: String!, $title: String!, $description: String!, $priority: Int, $estimate: Int) {
+      issueUpdate(id: $id, input: {title: $title, description: $description, priority: $priority, estimate: $estimate}) {
+        success
+        issue {
+          id
+          title
+        }
+      }
+    }"""
+
+    variables = {
+        "id": issue_id,
+        "title": title,
+        "description": description,
+        "priority": int(priority_value),
+        "estimate": int(estimate) if str(estimate).isdigit() else 0
+    }
+    
+    headers = {
+        "Authorization": API_KEY,
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url, json={'query': query, 'variables': variables}, headers=headers)
+    return response.json()
+
+
 def create_linear_issue(title, description, priority, estimate):
     url = "https://api.linear.app/graphql"
 
@@ -29,7 +62,7 @@ def create_linear_issue(title, description, priority, estimate):
         "title": title,
         "description": description,
         "priority": int(priority_value),
-        "estimate": int(estimate) if str(estimate).isdigit() else 0.0,
+        "estimate": int(estimate) if str(estimate).isdigit() else 0,
         "teamId": TEAM_ID
     }
     
@@ -62,9 +95,23 @@ for file in os.listdir('projects'):
             
             if 'linear-id' in post:
                 print(f"Updating existing issue {post['linear-id']}...")
+                result = update_linear_issue(
+                    post["linear-id"], 
+                    title, post.content, 
+                    priority, 
+                    estimate
+                )
+                if 'errors' in result:
+                    print(f"Failed to update issue {post['linear-id']}: {result['errors']}")
+
             else:
                 print(f"Creating new issue for {title}...")
-                new_id = create_linear_issue(title, post.content, priority, estimate)
+                new_id = create_linear_issue(
+                    title, 
+                    post.content, 
+                    priority, 
+                    estimate
+                )
                 if new_id:
                     post['linear-id'] = new_id
                     with open(os.path.join('projects', file), 'wb') as f:
