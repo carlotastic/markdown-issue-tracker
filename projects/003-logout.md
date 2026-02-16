@@ -4,9 +4,9 @@ estimate: 3
 labels:
 - authentication
 - backend
-linear-id: 471d6761-3f20-4829-881c-faadc65d5b68
+linear-id: 47d7afc6-fd2a-4c40-820e-b826dc685cc1
 priority: Medium
-title: Cloud Test
+title: User Logout
 ---
 
 # Issue Description
