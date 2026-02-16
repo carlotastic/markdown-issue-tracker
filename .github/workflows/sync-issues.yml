@@ -1,0 +1,36 @@
+name: Sync Markdown to Linear
+
+on:
+  push:
+    # This tells GitHub: "Only wake up if something in /projects changes"
+    paths:
+      - 'projects/**'
+    branches:
+      - main
+
+jobs:
+  sync-to-linear:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Pull your code onto the GitHub robot's hard drive
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # 3. Install the tools your script needs
+      - name: Install dependencies
+        run: |
+          pip install requests python-frontmatter
+
+      # 4. Run your script
+      - name: Run sync script
+        env:
+          # This pulls your API key safely from GitHub Secrets
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        run: python sync.py
