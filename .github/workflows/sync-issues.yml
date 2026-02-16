@@ -2,13 +2,10 @@ name: Sync Markdown to Linear
 
 on:
   push:
-    paths:
-      - 'projects/**'
     branches:
       - main
-    # Only run if the commit message DOES NOT start with "auto:"
-    branches-ignore:
-      - 'none'
+    paths:
+      - 'projects/**'
 
 jobs:
   sync-to-linear:
