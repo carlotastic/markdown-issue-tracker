@@ -1,0 +1,14 @@
+---
+assignee: student3
+estimate: 3
+labels:
+- authentication
+- backend
+priority: High
+title: User Logout
+---
+
+# Issue Description
+
+Whenever the user clicks the logout button, nothing happens. This could be an issue in the frontend logic.
+

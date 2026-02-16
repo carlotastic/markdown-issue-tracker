@@ -1,12 +1,14 @@
 ---
-title: "Fix login button alignment"
-date: 2026-02-13
-status: open
-priority: high
 assignee: carlo
+date: 2026-02-13
+estimate: 3
+linear-id: c001cc1d-23a0-4489-a26f-8f3bb110a038
+priority: High
+status: open
 tags:
-  - ui
-  - bug
+- ui
+- bug
+title: Fix login button alignment
 ---
 
 # Issue Description
