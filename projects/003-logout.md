@@ -4,7 +4,7 @@ estimate: 3
 labels:
 - authentication
 - backend
-priority: High
+priority: Medium
 title: User Logout
 ---
 
