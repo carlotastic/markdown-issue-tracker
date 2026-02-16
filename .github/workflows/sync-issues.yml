@@ -33,4 +33,6 @@ jobs:
         env:
           # This pulls your API key safely from GitHub Secrets
           LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          LINEAR_TEAM_KEY: ${{ secrets.LINEAR_TEAM_KEY }}
         run: python sync.py
